@@ -5,16 +5,41 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
-    <TextView android:text="Estudiantes:" android:layout_width="wrap_content"
+
+    <Button
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:id="@+id/" />
+        android:text="Estudiantes"
+        android:id="@+id/btnEstudiantes"
+        android:onClick="actionBtnEstudiantes"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/btnInsertarEstudiante" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profesores"
+        android:id="@+id/btnProfesores"
+        android:onClick="actionBtnProfesores"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lvEstudiantes"
-        android:layout_below="@+id/"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp" />
+        android:layout_below="@+id/btnEstudiantes"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="#4118ff" />
 
+    <Button
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="Insertar Estudiante"
+        android:id="@+id/btnInsertarEstudiante"
+        android:onClick="actionBtnInsertarEstudiante"
+        android:layout_below="@+id/btnEstudiantes"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by estruch18 on 10/1/16.
@@ -30,16 +31,24 @@ public class CustomContentProvider extends ContentProvider{
 
     MyDbHelper dbHelper;
 
-    //CONSTANTES USADAS PARA EL CONTENT URI
+    //CONSTANTES USADAS PARA EL CONTENT URI (ESTUDIANTES)
     static final int ESTUDIANTES = 1;
     static final int ESTUDIANTES_NOMBRE = 2;
+
+    //CONSTANTES USADAS PARA EL CONTENT URI (PROFESORES)
+    static final int PROFESORES = 1;
+    static final int PROFESORES_NOMBRE = 2;
 
     //MAPEO DE PATRONES DE CONTENT URI A LOS VALORES ARRIBA DEFINIDOS
     static final UriMatcher uriMatcher;
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+        //Estudiantes
         uriMatcher.addURI(PROVIDER_NAME, "Estudiante", ESTUDIANTES);
         uriMatcher.addURI(PROVIDER_NAME, "Estudiante/#", ESTUDIANTES_NOMBRE);
+        //Profesores
+        uriMatcher.addURI(PROVIDER_NAME, "Profesor", PROFESORES);
+        uriMatcher.addURI(PROVIDER_NAME, "Profesor/#", PROFESORES_NOMBRE);
     }
 
     //DECLARACIONES BBDD
@@ -62,14 +71,14 @@ public class CustomContentProvider extends ContentProvider{
             "    edad       integer     not null," +
             "    ciclo      text        not null," +
             "    curso      integer     not null," +
-            "    notaMedia  float      not null);";
+            "    notaMedia  integer     not null);";
 
     static final String ELIMINAR_TABLA_PROFESORES = "DROP TABLE IF EXISTS "+BBDD_TABLA_PROFESORES+";";
     static final String ELIMINAR_TABLA_ESTUDIANTES = "DROP TABLE IF EXISTS "+BBDD_TABLA_ESTUDIANTES+";";
 
-
     @Override
     public boolean onCreate() {
+
         dbHelper = new MyDbHelper(getContext());
         instituto_database = dbHelper.getWritableDatabase();
 
@@ -79,20 +88,26 @@ public class CustomContentProvider extends ContentProvider{
         else{
             return true;
         }
+
     }
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        //Query estudiantes
         queryBuilder.setTables(BBDD_TABLA_ESTUDIANTES);
 
+        //Estudiantes
         switch (uriMatcher.match(uri)){
+
             case ESTUDIANTES:
                 break;
+
             case ESTUDIANTES_NOMBRE:
                 queryBuilder.appendWhere(NOMBRE+" = "+uri.getLastPathSegment());
                 break;
+
             default:
                 throw new IllegalArgumentException("Unknown URI "+uri);
         }
@@ -104,10 +119,13 @@ public class CustomContentProvider extends ContentProvider{
     public String getType(Uri uri) {
 
         switch (uriMatcher.match(uri)){
+
             case ESTUDIANTES:
                 return "vnd.android.cursor.dir/vnd.com.example.estruch18.proyecto5ead";
+
             case ESTUDIANTES_NOMBRE:
                 return "vnd.android.cursor.item/vnd.com.example.estruch18.proyecto5ead";
+
             default:
                 throw new IllegalArgumentException("Unsupported URI "+uri);
         }

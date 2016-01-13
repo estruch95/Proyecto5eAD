@@ -16,6 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".CustomContentProvider"
+            android:authorities="com.example.estruch18.proyecto5ead" />
+
+        <activity
+            android:name=".InsertarEstudiante"
+            android:label="@string/title_activity_insertar_estudiante" >
+        </activity>
     </application>
 
 </manifest>
